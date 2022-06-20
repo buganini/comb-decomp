@@ -29,6 +29,7 @@ if __name__=="__main__":
 
     import sys
     import time
+    import math
     cmd = sys.argv[1:2]
 
     if cmd == ["c"]: # compress
@@ -38,7 +39,8 @@ if __name__=="__main__":
             bit1Cnt, idx = compress(chunk)
             end = time.time()
             et = end - start
-            print(f"{f}: {bit1Cnt} {idx} #{et:.3}s")
+            x = math.log(idx) / math.log(2) / len(chunk)
+            print(f"{f}: {bit1Cnt} {idx} {x:.6}x #{et:.3}s")
 
     elif cmd == ["z"]: # decompress
         bit1Cnt = int(sys.argv[2])
