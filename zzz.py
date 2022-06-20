@@ -1,6 +1,25 @@
 
-def compress(data):
-    pass
+from math import comb # python 3.8+
+
+def compress(chunk):
+    data = []
+    for b in chunk:
+        data.extend(list("{:08b}".format(b)))
+    data.append("1")
+    l = len(data)
+
+    bit1Cnt = data.count("1")
+    idx = 0
+    bc = bit1Cnt
+
+    p = l - 1
+    while p >= 0:
+        if data[p]!="0":
+            idx += comb(p, bc)
+            bc -= 1
+        p -= 1
+
+    return bit1Cnt-1, idx
 
 def decompress(bit1Cnt, idx):
     pass

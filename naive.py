@@ -35,9 +35,9 @@ def gen(n, k):
 def a_str(a):
     return "".join(a)
 
-def print_a(a):
+def print_a(a, end="\n"):
     s = a_str(a)
-    print(s)
+    print(s, end=end)
 
 def compress(chunk):
     bit1Cnt = count1(chunk)
@@ -76,7 +76,8 @@ if __name__=="__main__":
         a = ["1"]*bit1Cnt
         for i in range(num):
             # print("{:20b}".format(i), end=":")
-            print_a(a)
+            print_a(a, end=" : ")
+            print(i)
             # print_a_r(a, 10)
             next(a)
 
