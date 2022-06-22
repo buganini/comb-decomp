@@ -1,7 +1,7 @@
 
 from math import comb # python 3.8+
 
-def compress(chunk):
+def comp(chunk):
     data = []
     for b in chunk:
         data.extend(list("{:08b}".format(b)))
@@ -21,7 +21,7 @@ def compress(chunk):
 
     return bit1Cnt-1, idx
 
-def decompress(bit1Cnt, idx):
+def decomp(bit1Cnt, idx):
     pass
 
 if __name__=="__main__":
@@ -32,22 +32,22 @@ if __name__=="__main__":
     import math
     cmd = sys.argv[1:2]
 
-    if cmd == ["c"]: # compress
+    if cmd == ["c"]: # comp
         for f in sys.argv[2:]:
             chunk = open(f,"rb").read(CHUNK_SIZE)
             start = time.time()
-            bit1Cnt, idx = compress(chunk)
+            bit1Cnt, idx = comp(chunk)
             end = time.time()
             et = end - start
             x = math.log(idx) / math.log(2) / len(chunk)
             print(f"{f}: {bit1Cnt} {idx} {x:.6}x #{et:.3}s")
 
-    elif cmd == ["z"]: # decompress
+    elif cmd == ["d"]: # decomp
         bit1Cnt = int(sys.argv[2])
         idx = int(sys.argv[3])
 
         start = time.time()
-        data = decompress(bit1Cnt, idx)
+        data = decomp(bit1Cnt, idx)
         end = time.time()
         et = end - start
         print(f"RT={et:.3}s")

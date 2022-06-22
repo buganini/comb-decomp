@@ -39,7 +39,7 @@ def print_a(a, end="\n"):
     s = a_str(a)
     print(s, end=end)
 
-def compress(chunk):
+def comp(chunk):
     bit1Cnt = count1(chunk)
     truth = []
     for b in chunk:
@@ -54,7 +54,7 @@ def compress(chunk):
 
     return bit1Cnt, idx
 
-def decompress(bit1Cnt, idx):
+def decomp(bit1Cnt, idx):
     data = ["1"] * (bit1Cnt + 1)
     for i in range(idx):
         next(data)
@@ -82,22 +82,22 @@ if __name__=="__main__":
             # print_a_r(a, 10)
             next(a)
 
-    elif cmd == ["c"]: # compress
+    elif cmd == ["c"]: # comp
         for f in sys.argv[2:]:
             chunk = open(f,"rb").read(CHUNK_SIZE)
             start = time.time()
-            bit1Cnt, idx = compress(chunk)
+            bit1Cnt, idx = comp(chunk)
             end = time.time()
             et = end - start
             x = math.log(idx) / math.log(2) / len(chunk)
             print(f"{f}: {bit1Cnt} {idx} {x:.6}x #RT={et:.3}s")
 
-    elif cmd == ["z"]: # decompress
+    elif cmd == ["d"]: # decomp
         bit1Cnt = int(sys.argv[2])
         idx = int(sys.argv[3])
 
         start = time.time()
-        data = decompress(bit1Cnt, idx)
+        data = decomp(bit1Cnt, idx)
         end = time.time()
         et = end - start
         print(f"RT={et:.3}s")
