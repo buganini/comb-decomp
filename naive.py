@@ -92,7 +92,7 @@ if __name__=="__main__":
             length, bit1Cnt, idx = decomp(chunk)
             end = time.time()
             et = end - start
-            x = math.log(idx) / math.log(2) / len(chunk)
+            x = math.log(idx, 2) / (len(chunk)*8)
             print(f"{f}: {length} {bit1Cnt} {idx} {x:.6}x #RT={et:.3}s")
 
     elif cmd == ["c"]: # comp
