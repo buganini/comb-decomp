@@ -39,26 +39,29 @@ def print_a(a, end="\n"):
     s = a_str(a)
     print(s, end=end)
 
-def comp(chunk):
+def decomp(chunk):
+    length = len(chunk)
     bit1Cnt = count1(chunk)
     truth = []
     for b in chunk:
         truth.extend(list("{:08b}".format(b)))
-    truth.append("1")
 
-    data = ["1"] * (bit1Cnt + 1)
+    while truth[-1]=="0":
+        truth.pop()
+
+    data = ["1"] * bit1Cnt
     idx = 0
     while data != truth:
         next(data)
         idx += 1
 
-    return bit1Cnt, idx
+    return length, bit1Cnt, idx
 
-def decomp(bit1Cnt, idx):
-    data = ["1"] * (bit1Cnt + 1)
+def comp(length, bit1Cnt, idx):
+    data = ["1"] * bit1Cnt
     for i in range(idx):
         next(data)
-    data = data[:-1]
+    data += ["0"] * (length*8-len(data))
     data = [int("".join(data[i*8:i*8+8]),2) for i in range(len(data)//8)]
     data = bytearray(data)
     return data
@@ -82,22 +85,23 @@ if __name__=="__main__":
             # print_a_r(a, 10)
             next(a)
 
-    elif cmd == ["c"]: # comp
+    elif cmd == ["d"]: # decomp
         for f in sys.argv[2:]:
             chunk = open(f,"rb").read(CHUNK_SIZE)
             start = time.time()
-            bit1Cnt, idx = comp(chunk)
+            length, bit1Cnt, idx = decomp(chunk)
             end = time.time()
             et = end - start
             x = math.log(idx) / math.log(2) / len(chunk)
-            print(f"{f}: {bit1Cnt} {idx} {x:.6}x #RT={et:.3}s")
+            print(f"{f}: {length} {bit1Cnt} {idx} {x:.6}x #RT={et:.3}s")
 
-    elif cmd == ["d"]: # decomp
-        bit1Cnt = int(sys.argv[2])
-        idx = int(sys.argv[3])
+    elif cmd == ["c"]: # comp
+        length = int(sys.argv[2])
+        bit1Cnt = int(sys.argv[3])
+        idx = int(sys.argv[4])
 
         start = time.time()
-        data = decomp(bit1Cnt, idx)
+        data = comp(length, bit1Cnt, idx)
         end = time.time()
         et = end - start
         print(f"RT={et:.3}s")
