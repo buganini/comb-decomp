@@ -22,7 +22,19 @@ def decomp(chunk):
     return length, bit1Cnt, idx
 
 def comp(length, bit1Cnt, idx):
-    pass
+    data = ["0"] * (length * 8)
+    p = len(data) - 1
+    bc = bit1Cnt
+    while idx > 0:
+        c = comb(p, bc)
+        if idx >= c:
+            data[p] = "1"
+            bc -= 1
+            idx -= c
+        p -= 1
+    data = [int("".join(data[i*8:i*8+8]),2) for i in range(len(data)//8)]
+    data = bytearray(data)
+    return data
 
 if __name__=="__main__":
     CHUNK_SIZE = 3
